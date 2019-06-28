@@ -817,8 +817,8 @@ var YearView = FC.YearView = View.extend({
 			}
 
 			s +='<div class="fc-year-monthly-name'+(monthsRow===0 ? ' fc-first' : '')+'">' +
-				'<span>' + htmlEscape(monthName) + '</span>' +
-				'</div>';
+				'<a name="'+monthID+'" data-year="'+y+'" data-month="'+m+'" href="#">' + htmlEscape(monthName) + '</a>' +
+				'</div>';	
 				
 			s +='<div class="fc-row '+headerClass+'">';
 
@@ -874,6 +874,12 @@ var YearView = FC.YearView = View.extend({
 		this.head = this.table.find('thead');
 		this.head.find('tr.fc-year-week-days th.fc-year-weekly-head:first').addClass('fc-first');
 		this.head.find('tr.fc-year-week-days th.fc-year-weekly-head:last').addClass('fc-last');
+
+		this.table.find('.fc-year-monthly-name a').click(this.calendar, function(ev) {
+			ev.data.changeView('month');
+			ev.data.gotoDate([$(this).attr('data-year'), $(this).attr('data-month'), 1]);
+		});
+
 
 		this.dayBind(this.bodyCells);
 	},
